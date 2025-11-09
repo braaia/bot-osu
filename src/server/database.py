@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine, Column, String, Integer, Float
 from sqlalchemy.orm import declarative_base
+from datetime import datetime
 
 engine = create_engine("sqlite:///maps.db")
 
@@ -81,3 +82,9 @@ class AllMaps(Base):
     ranked = Column(Integer)
     url = Column(String)
 
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True)
+    username = Column(String, unique=True)
+    last_seen = Column(String, default=lambda: datetime.now().isoformat())

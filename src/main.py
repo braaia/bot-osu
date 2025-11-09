@@ -1,9 +1,12 @@
-import discord, httpx, json, irc.client, os
+import discord, irc.client, os
+from sqlalchemy.orm import sessionmaker
 from server.database import *
 from server.tokens_utils import refresh
 from discord.ext import commands
 
 base_url = "https://osu.ppy.sh/api/v2"
+
+_Session = sessionmaker(engine)
 
 # Configurações de conexão
 server = "irc.ppy.sh"
@@ -34,6 +37,18 @@ async def sync(ctx:commands.Context):
 		print(f"{len(sincs)} comandos sincronizados!")
 	else:
 		await ctx.reply("Sai fora safado!!! 😝😝")
+
+
+async def save_user(sender, message):
+	with _Session() as session:
+		user = session.query(User).filter_by(username=sender).first()
+		if not user:
+			user = User(username=sender, last_message=message)
+			session.add(user)
+			print(f"[DB] Novo usuário adicionado: {sender}")
+		else:
+			user.last_message = message  # Atualiza última mensagem
+		session.commit()
 
 
 COMMANDS = {
