@@ -3,7 +3,6 @@ import sys
 sys.path.append(str(Path(__file__).resolve().parents[1]))  # adiciona src/ ao sys.path
 
 from server.secrets import *
-from server.tokens_utils import load_tokens, access_token
 import urllib.parse, requests, json, irc.client, time
 
 from datetime import timedelta
@@ -22,13 +21,13 @@ segundos = 125
 
 base_url = "https://osu.ppy.sh/api/v2"
 
-async def get_headers():
-    await load_tokens()
-    return {
-        "Authorization": f"Bearer {access_token}",
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-    }
+access_token = ""
+
+headers = {
+    "Authorization": f"Bearer {access_token}",
+    "Content-Type": "application/json",
+    "Accept": "application/json"
+}
 
 params = {
     "client_id": client_id,
@@ -51,8 +50,8 @@ data = {
 # r = requests.post("https://osu.ppy.sh/oauth/token", data=data)
 # print(json.dumps(r.json(), indent=4))
 
-async def UserBeatmapScore(beatmap: int, user: int):
-    r = requests.get(base_url + f"/beatmaps/{beatmap}/scores/users/{user}", headers=await get_headers())
+def UserBeatmapScore(beatmap: int, user: int):
+    r = requests.get(base_url + f"/beatmaps/{beatmap}/scores/users/{user}", headers=headers)
     data = r.json()
 
     organized = {
@@ -70,43 +69,39 @@ async def UserBeatmapScore(beatmap: int, user: int):
 
 # UserBeatmapScore(4303461, 20866109)
 
-async def GetUserScores(user, type):
+def GetUserScores(user, type):
     params = {
         "include_fails": 1,
         "limit": 5
     }
     
-    r = requests.get(base_url + f"/users/{user}/scores/{type}", params=params, headers=await get_headers())
+    r = requests.get(base_url + f"/users/{user}/scores/{type}", params=params, headers=headers)
     data = r.json()
 
     print(json.dumps(data, indent=4))
 
 # GetUserScores(20866109, "recent")
 
-async def CreateNewPM(target_id, message, is_action):
+def CreateNewPM(target_id, message, is_action):
     data = {
         "target_id": target_id,
         "message": message,
         "is_action": is_action
     }
 
-    r = requests.post(base_url + f"/chat/new", json=data, headers=await get_headers())
+    r = requests.post(base_url + f"/chat/new", json=data, headers=headers)
 
     print(json.dumps(r.json(), indent=4))
 
 # CreateNewPM(35340610, "oiiiii", False)
 
-async def GetBeatmap(beatmap):
-    r = requests.get(base_url + f"/beatmaps/{beatmap}", headers=await get_headers())
+def GetBeatmap(beatmap):
+    r = requests.get(base_url + f"/beatmaps/{beatmap}", headers=headers)
     data = r.json()
 
     print(json.dumps(data, indent=4))
 
-if __name__ == "__main__":
-    import asyncio
-
-    # Executa a coroutine corretamente e evita o RuntimeWarning: coroutine was never awaited
-    asyncio.run(GetBeatmap(4303461))
+# GetBeatmap(4303461)
 
 # Configurações de conexão
 server = "irc.ppy.sh"
