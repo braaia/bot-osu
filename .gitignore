@@ -185,3 +185,4 @@ src/tokens.json
 src/server/secrets.py
 src/tests/study.py
 src/tests/test.py
+src/maps.db
