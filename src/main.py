@@ -1,5 +1,6 @@
 import discord, os
 from server.tokens_utils import refresh
+from server.secrets import token_bot
 from discord.ext import commands
 
 base_url = "https://osu.ppy.sh/api/v2"
@@ -27,4 +28,4 @@ async def sync(ctx:commands.Context):
 	else:
 		await ctx.reply("Sai fora safado!!! 😝😝")
 
-bot.run("MTQzNjM0OTM0MDM0NzI2OTE1MA.GrozR_.53jXGo314NYnWm-AxYe0CJhf0q0nHczjSmOgYo") 
+bot.run(token_bot) 
