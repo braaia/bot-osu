@@ -181,3 +181,5 @@ cython_debug/
 .cursorindexingignore
 src/tokens.json
 *.json
+src/tokens.json
+src/server/secrets.py

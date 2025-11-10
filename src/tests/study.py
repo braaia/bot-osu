@@ -3,6 +3,7 @@ import sys
 sys.path.append(str(Path(__file__).resolve().parents[1]))  # adiciona src/ ao sys.path
 
 from server.secrets import *
+from server.tokens_utils import *
 import urllib.parse, requests, json, irc.client, time
 
 from datetime import timedelta
@@ -20,8 +21,6 @@ segundos = 125
 # print(segundos_para_string_minutos(segundos))
 
 base_url = "https://osu.ppy.sh/api/v2"
-
-access_token = ""
 
 headers = {
     "Authorization": f"Bearer {access_token}",
