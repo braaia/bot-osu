@@ -1,19 +1,8 @@
-import discord, irc.client, os
-from sqlalchemy.orm import sessionmaker
-from server.database import *
+import discord, os
 from server.tokens_utils import refresh
 from discord.ext import commands
 
 base_url = "https://osu.ppy.sh/api/v2"
-
-_Session = sessionmaker(engine)
-
-# Configurações de conexão
-server = "irc.ppy.sh"
-port = 6667
-nickname = "Braia"
-password = "3fadb0a7"  # token que você pegou em https://osu.ppy.sh/p/irc
-
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="&", intents=intents)

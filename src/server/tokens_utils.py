@@ -1,5 +1,5 @@
 import os, json, httpx
-from .secrets import *  # usando import relativo com . para importar do mesmo diretório
+from .secrets import client_id, client_secret  # usando import relativo com . para importar do mesmo diretório
 
 token_file = "tokens.json"
 
